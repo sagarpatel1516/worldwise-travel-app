@@ -11,7 +11,7 @@ import Form from "./components/Form.jsx";
 import { lazy, Suspense } from "react";
 import SpinnerFullPage from "./components/SpinnerFullPage.jsx";
 
-const HomePage = lazy(() => import("./pages/HomePage.jsx"));
+const HomePage = lazy(() => import("./pages/Homepage.jsx"));
 const Pricing = lazy(() => import("./pages/Pricing.jsx"));
 const Product = lazy(() => import("./pages/Product.jsx"));
 const PageNotFound = lazy(() => import("./pages/PageNotFound.jsx"));
