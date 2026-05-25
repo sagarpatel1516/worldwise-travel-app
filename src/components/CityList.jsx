@@ -1,4 +1,4 @@
-import CityItem from "./cityItem";
+import CityItem from "./CityItem.jsx";
 import styles from "./CityList.module.css";
 import Spinner from "./Spinner";
 import Message from "./Message";
