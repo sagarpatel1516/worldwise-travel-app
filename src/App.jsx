@@ -1,6 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { CitiesProvider } from "./contexts/CitiesContext.jsx";
-import { AuthProvider } from "./contexts/fakeAUthContext.jsx";
+import { AuthProvider } from "./contexts/fakeAuthContext.jsx";
 import ProtectedRoute from "./pages/ProtectedRoute.jsx";
 // import AppLayout from "./pages/AppLayout.jsx";
 // import Login from "./pages/Login.jsx";
