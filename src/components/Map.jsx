@@ -11,8 +11,8 @@ import {
 import { useState, useEffect } from "react";
 
 import { useCities } from "../contexts/CitiesContext.jsx";
-import { useGeolocation } from "../../hooks/useGeoLocation.js";
-import { useUrlPosition } from "../../hooks/useUrlPosition.js";
+import { useGeolocation } from "../hooks/useGeolocation.js";
+import { useUrlPosition } from "../hooks/useUrlPosition.js";
 
 import Button from "./Button.jsx";
 
