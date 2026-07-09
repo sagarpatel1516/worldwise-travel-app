@@ -240,11 +240,7 @@ function CitiesProvider({ children }: CitiesProviderProps): React.JSX.Element {
   async function createCity(newCityData: Omit<City, "id">): Promise<boolean> {
     dispatch({ type: "loading" });
 
-    console.log("CREATE CITY START", newCityData);
-
     try {
-      console.log("Sending to Firebase...");
-
       const docRef = await addDoc(collection(db, "cities"), {
         cityName: newCityData.cityName,
         country: newCityData.country,
@@ -259,8 +255,6 @@ function CitiesProvider({ children }: CitiesProviderProps): React.JSX.Element {
           lng: newCityData.position.lng,
         },
       });
-
-      console.log("Firebase created ID:", docRef.id);
 
       const newCity: City = {
         ...newCityData,
