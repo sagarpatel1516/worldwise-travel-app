@@ -1,39 +1,44 @@
-import { useParams } from "react-router";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 
-import { useCities } from "../contexts/CitiesContext.jsx";
+import { useCities } from "../contexts/CitiesContext";
+
+import Spinner from "./Spinner";
+import BackButton from "./BackButton";
 
 import styles from "./City.module.css";
-import { useEffect } from "react";
-import Spinner from "./Spinner.jsx";
-import BackButton from "./BackButton.jsx";
 
-const formatDate = (date) =>
-  new Intl.DateTimeFormat("en", {
+function formatDate(date: string): string {
+  return new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "long",
     year: "numeric",
     weekday: "long",
   }).format(new Date(date));
+}
 
-function City() {
-  const { id } = useParams();
+function City(): React.JSX.Element {
+  const { id } = useParams<{ id: string }>();
 
   const { getCity, currentCity, isLoading } = useCities();
 
   useEffect(() => {
-    getCity(id);
+    if (id) {
+      void getCity(id);
+    }
   }, [id, getCity]);
 
-  // IMPORTANT: check first
-  if (isLoading || !currentCity) return <Spinner />;
+  if (isLoading || !currentCity) {
+    return <Spinner />;
+  }
 
-  // destructure AFTER check
   const { cityName, emoji, date, notes } = currentCity;
 
   return (
     <div className={styles.city}>
       <div className={styles.row}>
         <h6>City name</h6>
+
         <h3>
           <span>{emoji}</span> {cityName}
         </h3>
@@ -53,6 +58,7 @@ function City() {
 
       <div className={styles.row}>
         <h6>Learn more</h6>
+
         <a
           href={`https://en.wikipedia.org/wiki/${cityName}`}
           target="_blank"
@@ -61,6 +67,7 @@ function City() {
           Check out {cityName} on Wikipedia &rarr;
         </a>
       </div>
+
       <div>
         <BackButton />
       </div>

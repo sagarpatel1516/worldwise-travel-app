@@ -1,11 +1,14 @@
-import PageNav from "../components/PageNav";
-import styles from "./Login.module.css";
-import { useEffect, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/fakeAuthContext.jsx";
-import Button from "../components/Button.jsx";
 
-export default function Login() {
+import { useAuth } from "../contexts/fakeAuthContext";
+
+import Button from "../components/Button";
+import PageNav from "../components/PageNav";
+
+import styles from "./Login.module.css";
+
+function Login(): React.JSX.Element {
   const [email, setEmail] = useState("jack@example.com");
   const [password, setPassword] = useState("qwerty");
 
@@ -13,13 +16,18 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  function handleClick(e) {
+  function handleClick(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    if (email && password) login({ email, password });
+
+    if (email && password) {
+      login({ email, password });
+    }
   }
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/app", { replace: true });
+    if (isAuthenticated) {
+      navigate("/app", { replace: true });
+    }
   }, [isAuthenticated, navigate]);
 
   return (
@@ -31,10 +39,12 @@ export default function Login() {
           <label htmlFor="email">Email address</label>
 
           <input
-            type="email"
             id="email"
+            type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setEmail(e.target.value)
+            }
           />
         </div>
 
@@ -42,10 +52,12 @@ export default function Login() {
           <label htmlFor="password">Password</label>
 
           <input
-            type="password"
             id="password"
+            type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setPassword(e.target.value)
+            }
           />
         </div>
 
@@ -58,3 +70,5 @@ export default function Login() {
     </main>
   );
 }
+
+export default Login;

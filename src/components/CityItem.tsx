@@ -1,31 +1,46 @@
+import { MouseEvent } from "react";
 import { Link } from "react-router-dom";
+
+import { City, useCities } from "../contexts/CitiesContext";
+
 import styles from "./CityItem.module.css";
-import { useCities } from "../contexts/CitiesContext.jsx";
-const formatDate = (date) => {
+
+interface CityItemProps {
+  city: City;
+}
+
+function formatDate(date: string): string {
   return new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "long",
     year: "numeric",
   }).format(new Date(date));
-};
+}
 
-function CityItem({ city }) {
+function CityItem({ city }: CityItemProps): React.JSX.Element {
   const { currentCity, deleteCity } = useCities();
+
   const { cityName, emoji, date, id, position } = city;
 
-  function handleClick(e) {
+  function handleClick(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
-    deleteCity(id);
+    void deleteCity(id);
   }
+
   return (
-    <li key={city.id}>
+    <li>
       <Link
-        className={`${styles.cityItem} ${currentCity?.id === id ? styles["cityItem--active"] : ""}`}
+        className={`${styles.cityItem} ${
+          currentCity?.id === id ? styles["cityItem--active"] : ""
+        }`}
         to={`${id}?lat=${position.lat}&lng=${position.lng}`}
       >
         <span className={styles.emoji}>{emoji}</span>
+
         <h3 className={styles.name}>{cityName}</h3>
+
         <time className={styles.date}>({formatDate(date)})</time>
+
         <button className={styles.deleteBtn} onClick={handleClick}>
           &times;
         </button>

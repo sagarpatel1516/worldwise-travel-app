@@ -1,6 +1,8 @@
 import { useSearchParams } from "react-router-dom";
 
-export function useUrlPosition() {
+type UrlPosition = [string | null, string | null];
+
+export function useUrlPosition(): UrlPosition {
   const [searchParams] = useSearchParams();
 
   const lat = searchParams.get("lat");

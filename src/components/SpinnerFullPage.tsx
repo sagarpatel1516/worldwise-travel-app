@@ -1,7 +1,8 @@
-import Spinner from "./Spinner.jsx";
+import Spinner from "./Spinner";
+
 import styles from "./SpinnerFullPage.module.css";
 
-function SpinnerFullPage() {
+function SpinnerFullPage(): React.JSX.Element {
   return (
     <div className={styles.spinnerFullpage}>
       <Spinner />

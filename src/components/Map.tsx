@@ -1,23 +1,25 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./Map.module.css";
 import {
   MapContainer,
-  TileLayer,
   Marker,
   Popup,
+  TileLayer,
   useMap,
   useMapEvents,
 } from "react-leaflet";
-import { useState, useEffect } from "react";
+import type { LatLngExpression } from "leaflet";
 
-import { useCities } from "../contexts/CitiesContext.jsx";
-import { useGeolocation } from "../hooks/useGeolocation.js";
-import { useUrlPosition } from "../hooks/useUrlPosition.js";
+import { useCities } from "../contexts/CitiesContext";
+import { useGeolocation } from "../hooks/useGeolocation";
+import { useUrlPosition } from "../hooks/useUrlPosition";
 
-import Button from "./Button.jsx";
+import Button from "./Button";
 
-function Map() {
-  const [mapPosition, setMapPosition] = useState([20, 78]);
+import styles from "./Map.module.css";
+
+function Map(): React.JSX.Element {
+  const [mapPosition, setMapPosition] = useState<LatLngExpression>([20, 78]);
 
   const {
     isLoading: isLoadingPosition,
@@ -29,14 +31,12 @@ function Map() {
 
   const [mapLat, mapLng] = useUrlPosition();
 
-  // Move map when URL coordinates change
   useEffect(() => {
     if (mapLat && mapLng) {
       setMapPosition([Number(mapLat), Number(mapLng)]);
     }
   }, [mapLat, mapLng]);
 
-  // Move map to user's geolocation
   useEffect(() => {
     if (geolocationPosition) {
       setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
@@ -54,7 +54,7 @@ function Map() {
       <MapContainer
         center={mapPosition}
         zoom={6}
-        scrollWheelZoom={true}
+        scrollWheelZoom
         className={styles.map}
       >
         <TileLayer
@@ -64,8 +64,8 @@ function Map() {
 
         {cities.map((city) => (
           <Marker
-            position={[Number(city.position.lat), Number(city.position.lng)]}
             key={city.id}
+            position={[city.position.lat, city.position.lng]}
           >
             <Popup>
               <strong>{city.cityName}</strong>
@@ -82,24 +82,27 @@ function Map() {
   );
 }
 
-function ChangeMapPosition({ position }) {
+interface ChangeMapPositionProps {
+  position: LatLngExpression;
+}
+
+function ChangeMapPosition({ position }: ChangeMapPositionProps): null {
   const map = useMap();
 
   useEffect(() => {
     map.setView(position);
-  }, [position, map]);
+  }, [map, position]);
 
   return null;
 }
 
-function DetectMapClick() {
+function DetectMapClick(): null {
   const navigate = useNavigate();
 
   useMapEvents({
-    click: (e) => {
+    click(e) {
       const { lat, lng } = e.latlng;
 
-      // Fix invalid longitude values
       const fixedLng = ((((lng + 180) % 360) + 360) % 360) - 180;
 
       navigate(`form?lat=${lat}&lng=${fixedLng}`);

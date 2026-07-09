@@ -1,6 +1,12 @@
+import { City } from "../contexts/CitiesContext";
+
 import styles from "./CountryItem.module.css";
 
-function CountryItem({ country }) {
+interface CountryItemProps {
+  country: Pick<City, "country" | "emoji">;
+}
+
+function CountryItem({ country }: CountryItemProps): React.JSX.Element {
   return (
     <li className={styles.countryItem}>
       <span>{country.emoji}</span>

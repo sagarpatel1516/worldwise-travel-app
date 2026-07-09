@@ -1,6 +1,6 @@
 import styles from "./Spinner.module.css";
 
-function Spinner() {
+function Spinner(): React.JSX.Element {
   return (
     <div className={styles.spinnerContainer}>
       <div className={styles.spinner}></div>

@@ -4,20 +4,66 @@ import {
   useEffect,
   useContext,
   useCallback,
+  ReactNode,
 } from "react";
 
 const BASE_URL = "http://localhost:9000";
 
-const CitiesContext = createContext();
+export interface City {
+  id: number;
+  cityName: string;
+  country: string;
+  emoji: string;
+  date: string;
+  notes: string;
+  position: {
+    lat: number;
+    lng: number;
+  };
+}
 
-const initialState = {
+interface CitiesState {
+  cities: City[];
+  isLoading: boolean;
+  currentCity: City | null;
+  error: string | null;
+}
+
+interface CitiesContextType {
+  cities: City[];
+  isLoading: boolean;
+  currentCity: City | null;
+  error: string | null;
+  getCity: (id: number | string) => Promise<void>;
+  createCity: (newCityData: Omit<City, "id">) => Promise<void>;
+  deleteCity: (id: number) => Promise<void>;
+}
+
+interface CitiesProviderProps {
+  children: ReactNode;
+}
+
+type CitiesAction =
+  | { type: "loading" }
+  | { type: "cities/loaded"; payload: City[] }
+  | { type: "city/loaded"; payload: City }
+  | { type: "city/created"; payload: City }
+  | { type: "city/deleted"; payload: number }
+  | { type: "rejected"; payload: string };
+
+const initialState: CitiesState = {
   cities: [],
   isLoading: false,
   currentCity: null,
   error: null,
 };
 
-function reducer(state, action) {
+const CitiesContext = createContext<CitiesContextType | undefined>(undefined);
+
+function reducer(
+  state: CitiesState,
+  action: CitiesAction,
+): CitiesState {
   switch (action.type) {
     case "loading":
       return {
@@ -63,17 +109,18 @@ function reducer(state, action) {
       };
 
     default:
-      throw new Error(`Unknown action type: ${action.type}`);
+      throw new Error("Unknown action type");
   }
 }
 
-function CitiesProvider({ children }) {
+function CitiesProvider({
+  children,
+}: CitiesProviderProps): React.JSX.Element {
   const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
     reducer,
     initialState,
   );
 
-  // LOAD ALL CITIES
   useEffect(() => {
     async function fetchCities() {
       dispatch({ type: "loading" });
@@ -83,9 +130,8 @@ function CitiesProvider({ children }) {
 
         if (!res.ok) throw new Error("Failed to fetch cities");
 
-        const data = await res.json();
+        const data: City[] = await res.json();
 
-        // FIXED
         dispatch({
           type: "cities/loaded",
           payload: data,
@@ -93,7 +139,8 @@ function CitiesProvider({ children }) {
       } catch (error) {
         dispatch({
           type: "rejected",
-          payload: error.message,
+          payload:
+            error instanceof Error ? error.message : "Unknown error occurred",
         });
       }
     }
@@ -101,9 +148,8 @@ function CitiesProvider({ children }) {
     fetchCities();
   }, []);
 
-  // GET SINGLE CITY
   const getCity = useCallback(
-    async (id) => {
+    async (id: number | string): Promise<void> => {
       if (Number(id) === currentCity?.id) return;
 
       dispatch({ type: "loading" });
@@ -113,9 +159,8 @@ function CitiesProvider({ children }) {
 
         if (!res.ok) throw new Error("Failed to fetch city");
 
-        const data = await res.json();
+        const data: City = await res.json();
 
-        // FIXED
         dispatch({
           type: "city/loaded",
           payload: data,
@@ -123,15 +168,17 @@ function CitiesProvider({ children }) {
       } catch (error) {
         dispatch({
           type: "rejected",
-          payload: error.message,
+          payload:
+            error instanceof Error ? error.message : "Unknown error occurred",
         });
       }
     },
     [currentCity?.id],
   );
 
-  // CREATE CITY
-  async function createCity(newCityData) {
+  async function createCity(
+    newCityData: Omit<City, "id">,
+  ): Promise<void> {
     dispatch({ type: "loading" });
 
     try {
@@ -145,7 +192,7 @@ function CitiesProvider({ children }) {
 
       if (!res.ok) throw new Error("Failed to create city");
 
-      const data = await res.json();
+      const data: City = await res.json();
 
       dispatch({
         type: "city/created",
@@ -154,19 +201,21 @@ function CitiesProvider({ children }) {
     } catch (error) {
       dispatch({
         type: "rejected",
-        payload: error.message,
+        payload:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
 
-  // DELETE CITY
-  async function deleteCity(id) {
+  async function deleteCity(id: number): Promise<void> {
     dispatch({ type: "loading" });
 
     try {
-      await fetch(`${BASE_URL}/cities/${id}`, {
+      const res = await fetch(`${BASE_URL}/cities/${id}`, {
         method: "DELETE",
       });
+
+      if (!res.ok) throw new Error("Failed to delete city");
 
       dispatch({
         type: "city/deleted",
@@ -175,7 +224,8 @@ function CitiesProvider({ children }) {
     } catch (error) {
       dispatch({
         type: "rejected",
-        payload: error.message,
+        payload:
+          error instanceof Error ? error.message : "Unknown error occurred",
       });
     }
   }
@@ -197,7 +247,7 @@ function CitiesProvider({ children }) {
   );
 }
 
-function useCities() {
+function useCities(): CitiesContextType {
   const context = useContext(CitiesContext);
 
   if (context === undefined) {

@@ -1,29 +1,25 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { CitiesProvider } from "./contexts/CitiesContext.jsx";
-import { AuthProvider } from "./contexts/fakeAuthContext.jsx";
-import ProtectedRoute from "./pages/ProtectedRoute.jsx";
-// import AppLayout from "./pages/AppLayout.jsx";
-// import Login from "./pages/Login.jsx";n
-import CityList from "./components/CityList.jsx";
-import CountryList from "./components/CountryList.jsx";
-import City from "./components/City.jsx";
-import Form from "./components/Form.jsx";
 import { lazy, Suspense } from "react";
-import SpinnerFullPage from "./components/SpinnerFullPage.jsx";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-const HomePage = lazy(() => import("./pages/Homepage.jsx"));
-const Pricing = lazy(() => import("./pages/Pricing.jsx"));
-const Product = lazy(() => import("./pages/Product.jsx"));
-const PageNotFound = lazy(() => import("./pages/PageNotFound.jsx"));
-const Login = lazy(() => import("./pages/Login.jsx"));
-const AppLayout = lazy(() => import("./pages/AppLayout.jsx"));
+import { CitiesProvider } from "./contexts/CitiesContext";
+import { AuthProvider } from "./contexts/fakeAuthContext";
 
-// import HomePage from "./pages/HomePage.jsx";
-// import Pricing from "./pages/Pricing.jsx";
-// import Product from "./pages/Product.jsx";
-// import PageNotFound from "./pages/PageNotFound.jsx";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
-function App() {
+import CityList from "./components/CityList";
+import CountryList from "./components/CountryList";
+import City from "./components/City";
+import Form from "./components/Form";
+import SpinnerFullPage from "./components/SpinnerFullPage";
+
+const HomePage = lazy(() => import("./pages/Homepage"));
+const Pricing = lazy(() => import("./pages/Pricing"));
+const Product = lazy(() => import("./pages/Product"));
+const PageNotFound = lazy(() => import("./pages/PageNotFound"));
+const Login = lazy(() => import("./pages/Login"));
+const AppLayout = lazy(() => import("./pages/AppLayout"));
+
+function App(): React.JSX.Element {
   return (
     <AuthProvider>
       <CitiesProvider>
@@ -35,6 +31,7 @@ function App() {
               <Route path="product" element={<Product />} />
               <Route path="login" element={<Login />} />
               <Route path="*" element={<PageNotFound />} />
+
               <Route
                 path="app"
                 element={
