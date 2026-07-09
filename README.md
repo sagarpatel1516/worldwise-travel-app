@@ -1,17 +1,17 @@
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router)
 ![Leaflet](https://img.shields.io/badge/Leaflet-199900?style=for-the-badge&logo=leaflet)
 ![CSS Modules](https://img.shields.io/badge/CSS_Modules-1572B6?style=for-the-badge)
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel)
-![JSON Server](https://img.shields.io/badge/JSON_Server-000000?style=for-the-badge&logo=json)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite)
+![JSON Server](https://img.shields.io/badge/JSON_Server-000000?style=for-the-badge)
 
 # 🌍 WorldWise - Travel Tracker
 
 WorldWise is a modern travel tracking application that allows users to mark visited cities on an interactive map, save travel memories, browse visited countries, and organize their journeys through a clean and responsive interface.
 ### Built With
 
-React • Vite • React Router • Leaflet • Context API • CSS Modules • JSON Server
+React • TypeScript • Vite • React Router • Leaflet • Context API • CSS Modules • JSON Server
 
 ---
 
@@ -47,16 +47,17 @@ React • Vite • React Router • Leaflet • Context API • CSS Modules • 
 
 ## 🛠️ Tech Stack
 
-- React
-- JavaScript (ES6+)
-- React Router
+- React 19
+- TypeScript
+- Vite
+- React Router DOM
 - Context API
 - Custom Hooks
+- React Leaflet
 - Leaflet
 - Geolocation API
 - CSS Modules
-- Vite
-- JSON Server (Mock Backend)
+- JSON Server
 
 ---
 
@@ -79,6 +80,8 @@ WorldWise enables travelers to organize and visualize the cities and countries t
 
 ## ⭐ Key Highlights
 
+- Fully migrated from JavaScript to TypeScript
+- Strongly typed React components and hooks
 - Interactive maps powered by Leaflet
 - Browser Geolocation API integration
 - Context API for global state management
@@ -93,14 +96,15 @@ WorldWise enables travelers to organize and visualize the cities and countries t
 
 ## 🏗️ Architecture
 
-The application is built using modern React concepts including:
+The application is built using modern React and TypeScript concepts including:
 
-- Vite
+- TypeScript
+- React 19
 - Functional Components
 - React Hooks
 - Context API
 - Custom Hooks
-- React Router
+- React Router DOM
 - Component-Based Architecture
 - CSS Modules
 - Geolocation API Integration
@@ -153,45 +157,55 @@ Users can select any location on the map to save it as a visited destination.
 
 ```text
 WorldWise/
-├── components/
-│   ├── AppNav.jsx
-│   ├── BackButton.jsx
-│   ├── Button.jsx
-│   ├── City.jsx
-│   ├── CityItem.jsx
-│   ├── CityList.jsx
-│   ├── CountryItem.jsx
-│   ├── CountryList.jsx
-│   ├── Form.jsx
-│   ├── Logo.jsx
-│   ├── Map.jsx
-│   ├── Message.jsx
-│   ├── PageNav.jsx
-│   ├── Sidebar.jsx
-│   ├── Spinner.jsx
-│   └── User.jsx
+├── src/
+│   ├── components/
+│   │   ├── AppNav.tsx
+│   │   ├── BackButton.tsx
+│   │   ├── Button.tsx
+│   │   ├── City.tsx
+│   │   ├── CityItem.tsx
+│   │   ├── CityList.tsx
+│   │   ├── CountryItem.tsx
+│   │   ├── CountryList.tsx
+│   │   ├── Form.tsx
+│   │   ├── Logo.tsx
+│   │   ├── Map.tsx
+│   │   ├── Message.tsx
+│   │   ├── PageNav.tsx
+│   │   ├── SideBar.tsx
+│   │   ├── Spinner.tsx
+│   │   ├── SpinnerFullPage.tsx
+│   │   └── User.tsx
+│   │
+│   ├── contexts/
+│   │   ├── CitiesContext.tsx
+│   │   └── fakeAuthContext.tsx
+│   │
+│   ├── hooks/
+│   │   ├── useGeolocation.ts
+│   │   └── useUrlPosition.ts
+│   │
+│   ├── pages/
+│   │   ├── AppLayout.tsx
+│   │   ├── Homepage.tsx
+│   │   ├── Login.tsx
+│   │   ├── Pricing.tsx
+│   │   ├── Product.tsx
+│   │   ├── ProtectedRoute.tsx
+│   │   └── PageNotFound.tsx
+│   │
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── vite-env.d.ts
 │
-├── contexts/
-│   ├── CitiesContext.jsx
-│   └── FakeAuthContext.jsx
+├── data/
+│   └── cities.json
 │
-├── hooks/
-│   ├── useGeolocation.js
-│   └── useUrlPosition.js
-│
-├── pages/
-│   ├── AppLayout.jsx
-│   ├── Homepage.jsx
-│   ├── Login.jsx
-│   ├── Pricing.jsx
-│   ├── Product.jsx
-│   ├── ProtectedRoute.jsx
-│   └── PageNotFound.jsx
-│
-├── App.jsx
-├── main.jsx
+├── tsconfig.json
+├── package.json
 └── README.md
 ```
+
 
 ---
 
@@ -225,7 +239,11 @@ npm run dev
 
 ## ☁️ Deployment
 
-The frontend is deployed on **Vercel**. During local development, **JSON Server** is used as a mock REST API to manage city and country data.
+The application is deployed on **Vercel**.
+
+During development, **JSON Server** provides a mock REST API for storing visited cities and countries.
+
+The project is built using **React 19**, **TypeScript**, and **Vite** for a fast and modern development experience.
 
 ---
 
