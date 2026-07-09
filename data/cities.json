@@ -13,78 +13,6 @@
       "id": 1
     },
     {
-      "cityName": "Gurugram",
-      "country": "India",
-      "emoji": "🇮🇳",
-      "date": "2026-07-09T04:13:01.347Z",
-      "notes": "test",
-      "position": {
-        "lat": "28.43971381702788",
-        "lng": "76.97021484375"
-      },
-      "id": 2
-    },
-    {
-      "cityName": "Yushu Zangzu Zizhizhou",
-      "country": "China",
-      "emoji": "🇨🇳",
-      "date": "2026-07-09T04:13:16.118Z",
-      "notes": "test",
-      "position": {
-        "lat": "35.60371874069731",
-        "lng": "95.185546875"
-      },
-      "id": 3
-    },
-    {
-      "cityName": "Gor’kovskiy Rayon",
-      "country": "Russian Federation (the)",
-      "emoji": "🇷🇺",
-      "date": "2026-07-09T04:13:27.589Z",
-      "notes": "test",
-      "position": {
-        "lat": "55.57834467218206",
-        "lng": "74.00390625"
-      },
-      "id": 4
-    },
-    {
-      "cityName": "Central Desert",
-      "country": "Australia",
-      "emoji": "🇦🇺",
-      "date": "2026-07-09T04:13:40.610Z",
-      "notes": "test",
-      "position": {
-        "lat": "-22.268764039073968",
-        "lng": "130.78125"
-      },
-      "id": 5
-    },
-    {
-      "cityName": "Kirdimi",
-      "country": "Chad",
-      "emoji": "🇹🇩",
-      "date": "2026-07-09T04:13:47.777Z",
-      "notes": "test",
-      "position": {
-        "lat": "18.312810846425457",
-        "lng": "18.28125"
-      },
-      "id": 6
-    },
-    {
-      "cityName": "Bierutow",
-      "country": "Poland",
-      "emoji": "🇵🇱",
-      "date": "2026-07-09T04:13:57.561Z",
-      "notes": "test",
-      "position": {
-        "lat": "51.17934297928929",
-        "lng": "17.578125"
-      },
-      "id": 7
-    },
-    {
       "cityName": "Baures",
       "country": "Bolivia (Plurinational State of)",
       "emoji": "🇧🇴",
@@ -107,18 +35,6 @@
         "lng": "-105.8203125"
       },
       "id": 9
-    },
-    {
-      "cityName": "County of Vermilion River No. 24",
-      "country": "Canada",
-      "emoji": "🇨🇦",
-      "date": "2026-07-09T04:14:20.994Z",
-      "notes": "test",
-      "position": {
-        "lat": "53.330872983017066",
-        "lng": "-110.0390625"
-      },
-      "id": 10
     }
   ]
 }

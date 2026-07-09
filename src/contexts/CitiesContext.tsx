@@ -7,14 +7,24 @@ import {
   ReactNode,
 } from "react";
 
-const BASE_URL = "http://localhost:9000";
+import {
+  collection,
+  getDocs,
+  getDoc,
+  addDoc,
+  deleteDoc,
+  doc,
+  Timestamp,
+} from "firebase/firestore";
+
+import { db } from "../services/firebase";
 
 export interface City {
-  id: number;
+  id: string;
   cityName: string;
   country: string;
   emoji: string;
-  date: string;
+  date: string | { toDate: () => Date };
   notes: string;
   position: {
     lat: number;
@@ -34,9 +44,9 @@ interface CitiesContextType {
   isLoading: boolean;
   currentCity: City | null;
   error: string | null;
-  getCity: (id: number | string) => Promise<void>;
-  createCity: (newCityData: Omit<City, "id">) => Promise<void>;
-  deleteCity: (id: number) => Promise<void>;
+  getCity: (id: string) => Promise<void>;
+  createCity: (newCityData: Omit<City, "id">) => Promise<boolean>;
+  deleteCity: (id: string) => Promise<void>;
 }
 
 interface CitiesProviderProps {
@@ -48,7 +58,7 @@ type CitiesAction =
   | { type: "cities/loaded"; payload: City[] }
   | { type: "city/loaded"; payload: City }
   | { type: "city/created"; payload: City }
-  | { type: "city/deleted"; payload: number }
+  | { type: "city/deleted"; payload: string }
   | { type: "rejected"; payload: string };
 
 const initialState: CitiesState = {
@@ -60,17 +70,14 @@ const initialState: CitiesState = {
 
 const CitiesContext = createContext<CitiesContextType | undefined>(undefined);
 
-function reducer(
-  state: CitiesState,
-  action: CitiesAction,
-): CitiesState {
+function reducer(state: CitiesState, action: CitiesAction): CitiesState {
   switch (action.type) {
     case "loading":
       return {
         ...state,
         isLoading: true,
+        error: null,
       };
-
     case "cities/loaded":
       return {
         ...state,
@@ -113,24 +120,49 @@ function reducer(
   }
 }
 
-function CitiesProvider({
-  children,
-}: CitiesProviderProps): React.JSX.Element {
+function CitiesProvider({ children }: CitiesProviderProps): React.JSX.Element {
   const [{ cities, isLoading, currentCity, error }, dispatch] = useReducer(
     reducer,
     initialState,
   );
 
+  // GET ALL CITIES FROM FIRESTORE
   useEffect(() => {
-    async function fetchCities() {
+    async function fetchCities(): Promise<void> {
       dispatch({ type: "loading" });
 
       try {
-        const res = await fetch(`${BASE_URL}/cities`);
+        const querySnapshot = await getDocs(collection(db, "cities"));
 
-        if (!res.ok) throw new Error("Failed to fetch cities");
+        const data: City[] = querySnapshot.docs.map((item) => {
+          const cityData = item.data() as {
+            cityName: string;
+            country: string;
+            emoji: string;
+            date: Timestamp | string;
+            notes: string;
+            position: {
+              lat: number;
+              lng: number;
+            };
+          };
 
-        const data: City[] = await res.json();
+          return {
+            id: item.id,
+            cityName: cityData.cityName,
+            country: cityData.country,
+            emoji: cityData.emoji,
+            date:
+              cityData.date instanceof Timestamp
+                ? cityData.date.toDate().toISOString()
+                : cityData.date,
+            notes: cityData.notes,
+            position: {
+              lat: Number(cityData.position.lat),
+              lng: Number(cityData.position.lng),
+            },
+          };
+        });
 
         dispatch({
           type: "cities/loaded",
@@ -140,82 +172,124 @@ function CitiesProvider({
         dispatch({
           type: "rejected",
           payload:
-            error instanceof Error ? error.message : "Unknown error occurred",
+            error instanceof Error ? error.message : "Failed to load cities",
         });
       }
     }
 
-    fetchCities();
+    void fetchCities();
   }, []);
 
   const getCity = useCallback(
-    async (id: number | string): Promise<void> => {
-      if (Number(id) === currentCity?.id) return;
+    async (id: string): Promise<void> => {
+      if (id === currentCity?.id) return;
 
       dispatch({ type: "loading" });
 
       try {
-        const res = await fetch(`${BASE_URL}/cities/${id}`);
+        const cityRef = doc(db, "cities", id);
 
-        if (!res.ok) throw new Error("Failed to fetch city");
+        const citySnap = await getDoc(cityRef);
 
-        const data: City = await res.json();
+        if (!citySnap.exists()) {
+          throw new Error("City not found");
+        }
+
+        const cityData = citySnap.data() as {
+          cityName: string;
+          country: string;
+          emoji: string;
+          date: Timestamp | string;
+          notes: string;
+          position: {
+            lat: number;
+            lng: number;
+          };
+        };
+
+        const city: City = {
+          id: citySnap.id,
+          cityName: cityData.cityName,
+          country: cityData.country,
+          emoji: cityData.emoji,
+          date:
+            cityData.date instanceof Timestamp
+              ? cityData.date.toDate().toISOString()
+              : cityData.date,
+          notes: cityData.notes,
+          position: {
+            lat: Number(cityData.position.lat),
+            lng: Number(cityData.position.lng),
+          },
+        };
 
         dispatch({
           type: "city/loaded",
-          payload: data,
+          payload: city,
         });
       } catch (error) {
         dispatch({
           type: "rejected",
           payload:
-            error instanceof Error ? error.message : "Unknown error occurred",
+            error instanceof Error ? error.message : "Failed to get city",
         });
       }
     },
     [currentCity?.id],
   );
-
-  async function createCity(
-    newCityData: Omit<City, "id">,
-  ): Promise<void> {
+  async function createCity(newCityData: Omit<City, "id">): Promise<boolean> {
     dispatch({ type: "loading" });
 
+    console.log("CREATE CITY START", newCityData);
+
     try {
-      const res = await fetch(`${BASE_URL}/cities`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      console.log("Sending to Firebase...");
+
+      const docRef = await addDoc(collection(db, "cities"), {
+        cityName: newCityData.cityName,
+        country: newCityData.country,
+        emoji: newCityData.emoji,
+        date:
+          typeof newCityData.date === "string"
+            ? Timestamp.fromDate(new Date(newCityData.date))
+            : newCityData.date,
+        notes: newCityData.notes,
+        position: {
+          lat: newCityData.position.lat,
+          lng: newCityData.position.lng,
         },
-        body: JSON.stringify(newCityData),
       });
 
-      if (!res.ok) throw new Error("Failed to create city");
+      console.log("Firebase created ID:", docRef.id);
 
-      const data: City = await res.json();
+      const newCity: City = {
+        ...newCityData,
+        id: docRef.id,
+      };
 
       dispatch({
         type: "city/created",
-        payload: data,
+        payload: newCity,
       });
+
+      return true;
     } catch (error) {
+      console.error("Firebase CREATE ERROR:", error);
+
       dispatch({
         type: "rejected",
         payload:
-          error instanceof Error ? error.message : "Unknown error occurred",
+          error instanceof Error ? error.message : "Failed to create city",
       });
+
+      return false;
     }
   }
-
-  async function deleteCity(id: number): Promise<void> {
+  async function deleteCity(id: string): Promise<void> {
     dispatch({ type: "loading" });
 
     try {
-      const res = await fetch(`${BASE_URL}/cities/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) throw new Error("Failed to delete city");
+      await deleteDoc(doc(db, "cities", id));
 
       dispatch({
         type: "city/deleted",
@@ -225,7 +299,7 @@ function CitiesProvider({
       dispatch({
         type: "rejected",
         payload:
-          error instanceof Error ? error.message : "Unknown error occurred",
+          error instanceof Error ? error.message : "Failed to delete city",
       });
     }
   }

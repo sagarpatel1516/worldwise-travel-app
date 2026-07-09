@@ -9,12 +9,21 @@ interface CityItemProps {
   city: City;
 }
 
-function formatDate(date: string): string {
+function formatDate(date: string | { toDate: () => Date }): string {
+  const newDate =
+    typeof date === "object" && "toDate" in date
+      ? date.toDate()
+      : new Date(date);
+
+  if (Number.isNaN(newDate.getTime())) {
+    return "Unknown date";
+  }
+
   return new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "long",
     year: "numeric",
-  }).format(new Date(date));
+  }).format(newDate);
 }
 
 function CityItem({ city }: CityItemProps): React.JSX.Element {
@@ -24,6 +33,7 @@ function CityItem({ city }: CityItemProps): React.JSX.Element {
 
   function handleClick(e: MouseEvent<HTMLButtonElement>): void {
     e.preventDefault();
+
     void deleteCity(id);
   }
 

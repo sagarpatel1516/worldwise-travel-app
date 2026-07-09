@@ -23,9 +23,9 @@ function City(): React.JSX.Element {
   const { getCity, currentCity, isLoading } = useCities();
 
   useEffect(() => {
-    if (id) {
-      void getCity(id);
-    }
+    if (!id) return;
+
+    void getCity(id);
   }, [id, getCity]);
 
   if (isLoading || !currentCity) {
@@ -46,12 +46,14 @@ function City(): React.JSX.Element {
 
       <div className={styles.row}>
         <h6>You went to {cityName} on</h6>
+
         <p>{formatDate(date)}</p>
       </div>
 
       {notes && (
         <div className={styles.row}>
           <h6>Your notes</h6>
+
           <p>{notes}</p>
         </div>
       )}

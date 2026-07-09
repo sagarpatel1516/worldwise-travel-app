@@ -1,17 +1,21 @@
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase)
 ![Leaflet](https://img.shields.io/badge/Leaflet-199900?style=for-the-badge&logo=leaflet)
 ![CSS Modules](https://img.shields.io/badge/CSS_Modules-1572B6?style=for-the-badge)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel)
-![JSON Server](https://img.shields.io/badge/JSON_Server-000000?style=for-the-badge&logo=json)
 
 # 🌍 WorldWise - Travel Tracker
 
-WorldWise is a modern travel tracking application that allows users to mark visited cities on an interactive map, save travel memories, browse visited countries, and organize their journeys through a clean and responsive interface.
+WorldWise is a modern travel tracking application that allows users to mark visited cities on an interactive map, save travel memories, explore visited countries, and manage their travel history with a clean and responsive interface.
+
+The application uses **Firebase Firestore** as a real-time database to store city information and provides a smooth user experience with modern React and TypeScript practices.
+
 ### Built With
 
-React • Vite • React Router • Leaflet • Context API • CSS Modules • JSON Server
+React • TypeScript • Vite • React Router • Firebase Firestore • Leaflet • Context API • CSS Modules
 
 ---
 
@@ -26,8 +30,8 @@ React • Vite • React Router • Leaflet • Context API • CSS Modules • 
 - [📷 Screenshots](#-screenshots)
 - [📁 Project Structure](#-project-structure)
 - [🚀 Getting Started](#-getting-started)
+- [🔥 Firebase Setup](#-firebase-setup)
 - [☁️ Deployment](#️-deployment)
-- [👤 Authentication](#-authentication)
 - [📄 License](#-license)
 - [👨‍💻 Author](#-author)
 
@@ -45,71 +49,107 @@ React • Vite • React Router • Leaflet • Context API • CSS Modules • 
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
+
+### Frontend
 
 - React
-- JavaScript (ES6+)
-- React Router
+- TypeScript
+- Vite
+- React Router DOM
 - Context API
 - Custom Hooks
-- Leaflet
-- Geolocation API
 - CSS Modules
-- Vite
-- JSON Server (Mock Backend)
+
+### Backend / Database
+
+- Firebase Firestore
+- Firebase Authentication
+
+### Maps
+
+- Leaflet
+- React Leaflet
+- Browser Geolocation API
+
+### Deployment
+
+- Vercel
 
 ---
 
-## ✨ Features
+# ✨ Features
 
-WorldWise enables travelers to organize and visualize the cities and countries they have visited on an interactive map.
+WorldWise helps travelers organize and visualize their visited places using an interactive world map.
 
-- Interactive World Map
-- Add Visited Cities
-- Store Travel Notes
-- View City Details
-- Browse Visited Countries
-- Geolocation Support
-- Protected Routes
-- Mock Authentication
-- Responsive Design
-- Dynamic Routing
+### 🌎 Travel Management
+
+- Interactive world map
+- Add visited cities
+- Save travel dates
+- Store travel notes
+- View city details
+- Browse visited countries
+- Delete saved cities
+
+### 🗺️ Map Features
+
+- Interactive Leaflet map
+- Click anywhere to select locations
+- Automatic latitude and longitude detection
+- Browser geolocation support
+
+### 🔥 Firebase Features
+
+- Firebase Firestore database integration
+- Real-time city data storage
+- Persistent travel data
+- Secure cloud data management
+
+### 🔐 Application Features
+
+- Protected routes
+- User authentication
+- Global state management
+- Responsive design
+- Dynamic routing
 
 ---
 
-## ⭐ Key Highlights
+# ⭐ Key Highlights
 
-- Interactive maps powered by Leaflet
-- Browser Geolocation API integration
-- Context API for global state management
-- Persistent city and country data using JSON Server
-- Client-side routing with React Router
+- Built using React + TypeScript
+- Firebase Firestore integration
+- Real-time cloud database
+- Context API state management
 - Reusable component architecture
-- Responsive user interface
-- CSS Modules for scoped styling
-- Clean and intuitive user experience
+- Custom React hooks
+- React Router navigation
+- Leaflet map integration
+- Type-safe development
+- Responsive UI using CSS Modules
 
 ---
 
-## 🏗️ Architecture
+# 🏗️ Architecture
 
-The application is built using modern React concepts including:
+The application follows modern React development practices:
 
-- Vite
 - Functional Components
 - React Hooks
+- TypeScript Interfaces
 - Context API
 - Custom Hooks
-- React Router
 - Component-Based Architecture
-- CSS Modules
-- Geolocation API Integration
+- Firebase Firestore Services
+- Protected Routing
+- Modular CSS Styling
 
 ---
 
-## 📱 Responsive Design
+# 📱 Responsive Design
 
-The application is fully responsive and optimized for:
+The application is optimized for:
 
 - 💻 Desktop
 - 📱 Tablet
@@ -117,25 +157,15 @@ The application is fully responsive and optimized for:
 
 ---
 
-## 📷 Screenshots
+# 📷 Screenshots
 
-Below are some screenshots showcasing the main features of the application.
+Below are screenshots showcasing the main features of the application.
 
 ### 🏠 Home Page
 
 <img width="1298" height="582" alt="image" src="https://github.com/user-attachments/assets/09022126-9d59-4c84-8889-117c7ed1727b" />
 
-### 💰 Pricing Page
-
-<img width="1273" height="599" alt="image" src="https://github.com/user-attachments/assets/1244559c-3cac-4f6c-bc7f-3fb0e564da85" />
-
-### 📖 Product Page
-
-<img width="1254" height="612" alt="image" src="https://github.com/user-attachments/assets/81c47ac9-54ea-4613-bfb0-784a9659b16e" />
-
 ### 🗺️ Interactive Map
-
-Users can select any location on the map to save it as a visited destination.
 
 <img width="780" height="604" alt="image" src="https://github.com/user-attachments/assets/125751fc-9c5a-452c-8cf3-d68406b4ddde" />
 
@@ -143,79 +173,78 @@ Users can select any location on the map to save it as a visited destination.
 
 <img width="542" height="584" alt="image" src="https://github.com/user-attachments/assets/0adff6ef-7aba-4d1b-a61c-2719857a5775" />
 
-### 🔐 Login Page
-
-<img width="1285" height="585" alt="image" src="https://github.com/user-attachments/assets/afa0c684-3e50-44fb-b2e2-808564569eda" />
-
 ---
 
-## 📁 Project Structure
+# 📁 Project Structure
 
 ```text
 WorldWise/
-├── components/
-│   ├── AppNav.jsx
-│   ├── BackButton.jsx
-│   ├── Button.jsx
-│   ├── City.jsx
-│   ├── CityItem.jsx
-│   ├── CityList.jsx
-│   ├── CountryItem.jsx
-│   ├── CountryList.jsx
-│   ├── Form.jsx
-│   ├── Logo.jsx
-│   ├── Map.jsx
-│   ├── Message.jsx
-│   ├── PageNav.jsx
-│   ├── Sidebar.jsx
-│   ├── Spinner.jsx
-│   └── User.jsx
 │
-├── contexts/
-│   ├── CitiesContext.jsx
-│   └── FakeAuthContext.jsx
+├── src/
+│   ├── components/
+│   │   ├── CityItem.tsx
+│   │   ├── CityList.tsx
+│   │   ├── CountryItem.tsx
+│   │   ├── CountryList.tsx
+│   │   ├── Map.tsx
+│   │   ├── Form.tsx
+│   │   ├── Sidebar.tsx
+│   │   └── ...
+│   │
+│   ├── contexts/
+│   │   └── CitiesContext.tsx
+│   │
+│   ├── hooks/
+│   │   ├── useGeolocation.ts
+│   │   └── useUrlPosition.ts
+│   │
+│   ├── firebase/
+│   │   └── firebase.ts
+│   │
+│   ├── pages/
+│   │   ├── Homepage.tsx
+│   │   ├── Login.tsx
+│   │   ├── Pricing.tsx
+│   │   └── Product.tsx
+│   │
+│   ├── App.tsx
+│   └── main.tsx
 │
-├── hooks/
-│   ├── useGeolocation.js
-│   └── useUrlPosition.js
-│
-├── pages/
-│   ├── AppLayout.jsx
-│   ├── Homepage.jsx
-│   ├── Login.jsx
-│   ├── Pricing.jsx
-│   ├── Product.jsx
-│   ├── ProtectedRoute.jsx
-│   └── PageNotFound.jsx
-│
-├── App.jsx
-├── main.jsx
+├── .env
+├── package.json
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Getting Started
 
-### Clone the repository
+## Clone the repository
 
 ```bash
 git clone https://github.com/sagarpatel1516/worldwise-travel-app.git
 ```
 
-### Install dependencies
+## Install dependencies
 
 ```bash
 npm install
 ```
 
-### Start the mock API
+## Create environment variables
 
-```bash
-npm run server
+Create a `.env` file:
+
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
 ```
 
-### Start the development server
+## Start development server
 
 ```bash
 npm run dev
@@ -223,35 +252,49 @@ npm run dev
 
 ---
 
-## ☁️ Deployment
+# 🔥 Firebase Setup
 
-The frontend is deployed on **Vercel**. During local development, **JSON Server** is used as a mock REST API to manage city and country data.
+1. Create a project in Firebase Console.
+2. Enable Firestore Database.
+3. Enable Firebase Authentication.
+4. Add a Web App.
+5. Copy Firebase configuration values.
+6. Add them to your `.env` file.
+7. Run the application.
 
 ---
 
-## 👤 Authentication
+# ☁️ Deployment
 
-- Fake Authentication
+The application is deployed using **Vercel**.
+
+Environment variables must be added inside Vercel project settings for Firebase configuration.
+
+---
+
+# 🔐 Authentication
+
+- Firebase Authentication
 - Protected Routes
-- User Session Context
+- User Session Management
 
 ---
 
-## 📄 License
+# 📄 License
 
 This project is licensed under the MIT License.
 
 ---
 
-## 👨‍💻 Author
+# 👨‍💻 Author
 
-**Sagar Patel**  
+**Sagar Patel**
 Junior React & Next.js Developer
 
-- 📧 Email: sagarpatel2524@gmail.com
+- 📧 Email: [sagarpatel2524@gmail.com](mailto:sagarpatel2524@gmail.com)
 - 💼 LinkedIn: https://www.linkedin.com/in/sagar-patel-984ab6219
 - 💻 GitHub: https://github.com/sagarpatel1516
 
 ---
 
-⭐ If you found this project interesting, feel free to star the repository!
+⭐ If you found this project useful, feel free to star the repository!

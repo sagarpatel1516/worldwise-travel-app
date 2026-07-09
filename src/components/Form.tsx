@@ -98,7 +98,7 @@ function Form(): React.JSX.Element {
 
     if (!cityName || !date || !lat || !lng) return;
 
-    await createCity({
+    const success = await createCity({
       cityName,
       country,
       emoji,
@@ -110,7 +110,9 @@ function Form(): React.JSX.Element {
       },
     });
 
-    navigate("/app/cities");
+    if (success) {
+      navigate("/app/cities");
+    }
   }
 
   if (isLoadingGeocoding) {
